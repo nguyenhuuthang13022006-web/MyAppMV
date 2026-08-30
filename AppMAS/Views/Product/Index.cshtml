@@ -1,0 +1,100 @@
+﻿@model List<AppMAS.Models.Product>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+    var categories = ViewBag.Categories as List<AppMAS.Models.Category>;
+}
+
+<div class="container mt-4">
+
+    <div class="row">
+
+        <!-- DANH MỤC -->
+        <div class="col-md-3">
+
+            <h5 class="mb-3">DANH MỤC</h5>
+
+            <div class="list-group">
+
+                <!-- Tất cả sản phẩm -->
+                <a asp-controller="Product"
+                   asp-action="Index"
+                   class="list-group-item list-group-item-action">
+                    Tất cả sản phẩm
+                </a>
+
+                <!-- Các danh mục -->
+                @foreach (var category in categories)
+                {
+                    <a asp-controller="Product"
+                       asp-action="Category"
+                       asp-route-id="@category.Id"
+                       class="list-group-item list-group-item-action">
+                        @category.Name
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- SẢN PHẨM -->
+        <div class="col-md-9">
+
+            <h3 class="mb-4">Danh sách sản phẩm</h3>
+
+            <div class="row">
+
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-4 mb-4">
+
+                        <div class="card h-100">
+
+                            <!-- Ảnh sản phẩm -->
+                            <img src="@product.Image"
+                                 class="card-img-top product-image"
+                                 alt="@product.Name">
+
+                            <div class="card-body">
+
+                                <!-- Tên -->
+                                <h6 class="card-title">
+                                    @product.Name
+                                </h6>
+
+                                <!-- Giá gốc -->
+                                <p class="mb-1">
+                                    <del>
+                                        @product.Price.ToString("N0") đ
+                                    </del>
+                                </p>
+
+                                <!-- Giá khuyến mãi -->
+                                <p class="text-danger fw-bold">
+                                    @product.SalePrice.ToString("N0") đ
+                                </p>
+
+                                <!-- Chi tiết -->
+                                <a asp-controller="Product"
+                                   asp-action="Details"
+                                   asp-route-id="@product.Id"
+                                   class="btn btn-success w-100">
+                                    Chi tiết
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
